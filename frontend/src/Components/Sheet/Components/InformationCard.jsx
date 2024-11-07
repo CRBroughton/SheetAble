@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./InformationCard.css";
-import { dominantColors } from "../../../Utils/colors";
+import { dominantColors } from "../../../Utils/colors.js";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import Modal from "../../Sidebar/Modal/Modal";
-import ModalContent from "./ModalContentTag.js";
+import Modal from "../../Sidebar/Modal/Modal.jsx";
+import ModalContent from "./ModalContentTag.jsx";
 
 function InformationCard({ infoText, tags, sheetName }) {
   const [modal, setModal] = useState(false);
