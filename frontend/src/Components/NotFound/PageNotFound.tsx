@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
-
-import "./PageNotFound.css";
+import React from "react";
 
 import SideBar from "../Sidebar/SideBar";
 
+import "./PageNotFound.css";
+
 function PageNotFound() {
   return (
-    <Fragment>
+    <>
       <SideBar />
       <div id="notfound" className="home_content">
         <div className="notfound">
@@ -19,7 +19,7 @@ function PageNotFound() {
           </a>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

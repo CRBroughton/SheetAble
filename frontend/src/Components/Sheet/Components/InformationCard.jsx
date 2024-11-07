@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "./InformationCard.css";
-import { dominantColors } from "../../../Utils/colors.js";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import React, { useState } from "react";
+import { dominantColors } from "../../../Utils/colors.js";
 import Modal from "../../Sidebar/Modal/Modal.jsx";
 import ModalContent from "./ModalContentTag.jsx";
+import "./InformationCard.css";
 
 function InformationCard({ infoText, tags, sheetName }) {
   const [modal, setModal] = useState(false);
@@ -13,7 +13,7 @@ function InformationCard({ infoText, tags, sheetName }) {
     <div className="information_card">
       <div className="header_wrapper">
         <h1>Information</h1>
-        {tags.map((tag) => (
+        {tags.map(tag => (
           <div>
             <a
               href={`/tag/${encodeURIComponent(tag)}`}

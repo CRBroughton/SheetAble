@@ -1,14 +1,15 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 
-const Ping = () => {
+function Ping() {
   const [notification, setNotification] = useState("");
 
   const handlePing = async () => {
     try {
       const response = await axios.get(`${axios.defaults.baseURL}/pin`);
       setNotification(`Successful ping with response: ${response.data}`);
-    } catch (e) {
+    }
+    catch (e) {
       setNotification("Failed to ping");
     }
 
@@ -24,6 +25,6 @@ const Ping = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Ping;

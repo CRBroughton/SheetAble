@@ -1,20 +1,20 @@
-import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import React, { Component, Fragment } from "react";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { getSheets, getComposers } from "../../Redux/Actions/dataActions";
+import { getComposers, getSheets } from "../../Redux/Actions/dataActions";
+
+import Composers from "../Composers/Composers";
+
+import NoSheets from "../NotFound/NoSheets";
 
 // Sidebar
 import SideBar from "../Sidebar/SideBar";
-
 // CSS
 import "./HomePage.css";
-
 // Components
 import Sheets from "../Sheets/Sheets";
-import Composers from "../Composers/Composers";
-import NoSheets from "../NotFound/NoSheets";
 
 class HomePage extends Component {
   componentDidMount = () => {
@@ -26,8 +26,8 @@ class HomePage extends Component {
     }
 
     if (
-      this.props.composers === undefined ||
-      this.props.composers.length === 0
+      this.props.composers === undefined
+      || this.props.composers.length === 0
     ) {
       this.props.getComposers();
     }
@@ -63,14 +63,14 @@ class HomePage extends Component {
     const loadingJSX = <h1>loading</h1>;
 
     return (
-      <Fragment>
+      <>
         <SideBar history={this.props.history} />
         {this.props.loading
           ? loadingJSX
           : this.props.sheets === undefined || this.props.sheets.length === 0
-          ? sheetsFalse
-          : sheetsTrue}
-      </Fragment>
+            ? sheetsFalse
+            : sheetsTrue}
+      </>
     );
   }
 }
@@ -81,11 +81,13 @@ HomePage.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  sheets: state.data.sheets,
-  composers: state.data.composers,
-  loading: state.data.loading,
-});
+function mapStateToProps(state) {
+  return {
+    sheets: state.data.sheets,
+    composers: state.data.composers,
+    loading: state.data.loading,
+  };
+}
 
 const mapActionsToProps = {
   getSheets,

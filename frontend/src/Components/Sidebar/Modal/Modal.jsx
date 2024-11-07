@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import "./Modal.css";
 
-const Modal = (props) => {
+function Modal(props) {
   const closeOnEscapeKeyDown = (e) => {
     if ((e.charCode || e.keyCode) === 27) {
       props.onClose();
@@ -43,7 +43,7 @@ const Modal = (props) => {
       <div className="modal" onClick={props.onClose}>
         <div
           className="modal-content"
-          onClick={(e) => e.stopPropagation()}
+          onClick={e => e.stopPropagation()}
           ref={ref}
         >
           <div className="modal-header">
@@ -53,8 +53,8 @@ const Modal = (props) => {
         </div>
       </div>
     </CSSTransition>,
-    document.getElementById("root")
+    document.getElementById("root"),
   );
-};
+}
 
 export default Modal;

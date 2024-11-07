@@ -1,19 +1,19 @@
 import {
+  DECREMENT_COMPOSER_PAGE,
+  DECREMENT_SHEET_PAGE,
+  INCREMENT_COMPOSER_PAGE,
+  INCREMENT_SHEET_PAGE,
   LOADING_COMPOSERS,
   LOADING_DATA,
-  SET_SHEETS,
-  SET_COMPOSERS,
   RESET_DATA,
-  SET_PAGE_SHEETS,
-  INCREMENT_SHEET_PAGE,
-  DECREMENT_SHEET_PAGE,
-  SET_SHEET_PAGE,
-  SET_TOTAL_SHEET_PAGES,
-  SET_TOTAL_COMPOSER_PAGES,
-  INCREMENT_COMPOSER_PAGE,
-  DECREMENT_COMPOSER_PAGE,
   SET_COMPOSER_PAGE,
+  SET_COMPOSERS,
   SET_PAGE_COMPOSERS,
+  SET_PAGE_SHEETS,
+  SET_SHEET_PAGE,
+  SET_SHEETS,
+  SET_TOTAL_COMPOSER_PAGES,
+  SET_TOTAL_SHEET_PAGES,
   SET_USERS_DATA,
 } from "../types";
 
@@ -100,15 +100,16 @@ export default function (state = initialState, action) {
         };
       }
 
-      for (let key in state.composerPages) {
-        if (!state.composerPages.hasOwnProperty(key)) continue;
+      for (const key in state.composerPages) {
+        if (!state.composerPages.hasOwnProperty(key))
+          continue;
         const page = state.composerPages[key];
         const result = page.find(
-          (composer) => composer.safe_name === action.composer
+          composer => composer.safe_name === action.composer,
         );
 
         if (result !== undefined) {
-          var index = page.indexOf(result);
+          const index = page.indexOf(result);
 
           if (index !== -1) {
             page[index] = { ...page[index], sheets: action.payload };
@@ -155,13 +156,13 @@ export default function (state = initialState, action) {
         composers: action.payload,
         loading: false,
       };
-    
+
     case SET_USERS_DATA:
       return {
         ...state.composerPage,
         usersData: action.payload,
-        loading: false
-      }
+        loading: false,
+      };
 
     case RESET_DATA:
       return {

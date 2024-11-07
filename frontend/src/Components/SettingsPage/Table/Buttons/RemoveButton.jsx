@@ -1,7 +1,7 @@
-import React from 'react'
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import axios from 'axios';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
+import axios from "axios";
+import React from "react";
 
 export default function RemoveButton(params) {
   return (
@@ -11,20 +11,20 @@ export default function RemoveButton(params) {
       size="small"
       style={{ color: " #ff4a35 " }}
       onClick={() => {
-          deleteUser(params.row.id)
+        deleteUser(params.row.id);
       }}
     >
       <DeleteIcon />
     </IconButton>
-  )
+  );
 }
 
-const deleteUser = (id) => {
+function deleteUser(id) {
   axios.delete(`/users/${id}`)
-  .then(res => {
-    window.location.reload()
-  })
-  .catch(err => {
-    console.error(err)
-  })
+    .then((res) => {
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }

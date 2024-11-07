@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import LoadingAnimation from "../../../Images/Animations/Loading.svg";
 import { useHistory } from "react-router";
+import LoadingAnimation from "../../../Images/Animations/Loading.svg";
 import { getCompImgUrl } from "../../../Utils/utils";
 
 function RandomComposerSelection({ composerPages, page }) {
@@ -14,8 +14,8 @@ function RandomComposerSelection({ composerPages, page }) {
 
   const pickComposer = () => {
     setLoading(true);
-    const comp =
-      composerPages[page][
+    const comp
+      = composerPages[page][
         Math.floor(Math.random() * composerPages[page].length)
       ];
     setImgUrl(getCompImgUrl(comp.portrait_url));
@@ -28,9 +28,9 @@ function RandomComposerSelection({ composerPages, page }) {
     setLoading(false);
   }, []);
 
-  var animateButton = function (e) {
+  const animateButton = function (e) {
     e.preventDefault();
-    //reset animation
+    // reset animation
 
     setBubblyButton("bubbly-button");
 
@@ -39,38 +39,40 @@ function RandomComposerSelection({ composerPages, page }) {
     setComposer(pickComposer());
     setLoading(false);
 
-    setTimeout(function () {
+    setTimeout(() => {
       setBubblyButton("bubbly-button");
     }, 700);
   };
 
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <div className="box rand-piece">
-      {loading ? (
-        <img className="loading-animation-rand" src={LoadingAnimation} alt="" />
-      ) : (
-        <div>
-          <div>
-            <img
-              className="rand-img cursor"
-              src={imgUrl}
-              alt="Portrait"
-              onClick={() => history.push(`/composer/${composer.safe_name}`)}
-            />
-            <div className="sheet-name-container">
-              <span className="sheet-name">{composer.name}</span>
+      {loading
+        ? (
+            <img className="loading-animation-rand" src={LoadingAnimation} alt="" />
+          )
+        : (
+            <div>
+              <div>
+                <img
+                  className="rand-img cursor"
+                  src={imgUrl}
+                  alt="Portrait"
+                  onClick={() => history.push(`/composer/${composer.safe_name}`)}
+                />
+                <div className="sheet-name-container">
+                  <span className="sheet-name">{composer.name}</span>
+                </div>
+                <div className="sheet-composer-container">
+                  <span className="sheet-composer">{composer.epoch}</span>
+                </div>
+              </div>
+              <button onClick={animateButton} className={bubblyButton}>
+                Shuffle
+              </button>
             </div>
-            <div className="sheet-composer-container">
-              <span className="sheet-composer">{composer.epoch}</span>
-            </div>
-          </div>
-          <button onClick={animateButton} className={bubblyButton}>
-            Shuffle
-          </button>
-        </div>
-      )}
+          )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { getCompImgUrl } from "../../../Utils/utils";
 
 function ComposerBox({ composer }) {
-  let history = useHistory();
+  const history = useHistory();
   const imgUrl = getCompImgUrl(composer.portrait_url);
 
   return (

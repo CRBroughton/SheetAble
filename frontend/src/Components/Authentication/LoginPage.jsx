@@ -1,8 +1,8 @@
+import PropTypes from "prop-types";
+
 import React, { Component } from "react";
 
 import "./LoginPage.css";
-
-import PropTypes from "prop-types";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -24,9 +24,10 @@ class LoginPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {      
+    if (nextProps.UI.errors) {
       this.setState({ errors: {
-        error: nextProps.UI.errors }});
+        error: nextProps.UI.errors,
+      } });
     }
   }
 
@@ -47,7 +48,7 @@ class LoginPage extends Component {
 
   render() {
     const { errors } = this.state;
-    
+
     return (
       <div className="all-container-pos">
         <div class="wrapper">
@@ -78,15 +79,14 @@ class LoginPage extends Component {
 								<input type="checkbox" id="remember-me" />
 								<label for="remember-me">Remember me</label>
 							</div>
-							
 
 							*
 						</div>
 						*/}
-            							
-							<div class="pass-link">
-								<a href="/forgot-password">Forgot password?</a>
-							</div>
+
+              <div class="pass-link">
+                <a href="/forgot-password">Forgot password?</a>
+              </div>
               <div class="field">
                 <input
                   type="submit"
@@ -165,10 +165,12 @@ LoginPage.propTypes = {
   UI: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  UI: state.UI,
-});
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    UI: state.UI,
+  };
+}
 
 const mapActionsToProps = {
   loginUser,

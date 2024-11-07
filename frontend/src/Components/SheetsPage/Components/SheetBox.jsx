@@ -1,18 +1,17 @@
+import axios from "axios";
+
 import React from "react";
 
 import { useHistory } from "react-router-dom";
 
-import axios from "axios";
-
 function SheetBox({ sheet }) {
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <li
       key={sheet.sheet_name}
       onClick={() =>
-        history.push(`/sheet/${sheet.pdf_url.split("pdf/").pop()}`)
-      }
+        history.push(`/sheet/${sheet.pdf_url.split("pdf/").pop()}`)}
       className="li-height"
     >
       <div className="box-container remove_shadow">

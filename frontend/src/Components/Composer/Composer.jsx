@@ -1,23 +1,23 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { useParams } from "react-router";
-import { findComposerByPages, getCompImgUrl } from "../../Utils/utils";
-import { connect } from "react-redux";
-import {
-  getSheetPage,
-  setComposerPage,
-  getComposerPage,
-  deleteComposer,
-  resetData,
-} from "../../Redux/Actions/dataActions";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import "./Composer.css";
-
-import SideBar from "../Sidebar/SideBar";
-import SheetBox from "../SheetsPage/Components/SheetBox";
 import { IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useParams } from "react-router";
+import {
+  deleteComposer,
+  getComposerPage,
+  getSheetPage,
+  resetData,
+  setComposerPage,
+} from "../../Redux/Actions/dataActions";
+import { findComposerByPages, getCompImgUrl } from "../../Utils/utils";
+
+import SheetBox from "../SheetsPage/Components/SheetBox";
 import Modal from "../Sidebar/Modal/Modal";
+import SideBar from "../Sidebar/SideBar";
 import ModalContent from "./ModalContent";
+import "./Composer.css";
 
 function Composer({
   composerPages,
@@ -33,7 +33,7 @@ function Composer({
   const { safeComposerName } = useParams();
 
   const [composer, setComposer] = useState(
-    findComposerByPages(safeComposerName, composerPages)
+    findComposerByPages(safeComposerName, composerPages),
   );
 
   const [inRequest, setInRequest] = useState(false);
@@ -43,14 +43,15 @@ function Composer({
 
   const getData = () => {
     if (
-      (composer === undefined || composer.sheets === undefined) &&
-      !inRequest
+      (composer === undefined || composer.sheets === undefined)
+      && !inRequest
     ) {
       setInRequest(true);
       getComposerPagesData(() => {
         getSheetsForComposer();
       });
-    } else if (composer !== undefined && composer.sheets !== undefined) {
+    }
+    else if (composer !== undefined && composer.sheets !== undefined) {
       setInRequest(false);
       setLoading(false);
     }
@@ -70,9 +71,9 @@ function Composer({
 
   const getComposerPagesData = (_callback) => {
     if (
-      composerPage === undefined ||
-      composerPage < 0 ||
-      composerPage > totalComposerPages
+      composerPage === undefined
+      || composerPage < 0
+      || composerPage > totalComposerPages
     ) {
       setComposerPage(1);
     }
@@ -111,61 +112,64 @@ function Composer({
   const [modal, setModal] = useState(false);
 
   return (
-    <Fragment>
+    <>
       <SideBar />
       <div className="home_content">
-        {!loading ? (
-          <div className="composer-page">
-            <img src={imgUrl} className="portrait-page" alt="Portrait" />
-            <h5>{composer.name}</h5>
-            <h6>{composer.epoch}</h6>
-            <IconButton
-              onClick={() => setModal(true)}
-              className="edit"
-              disabled={composer.name === "Unknown"}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              className="delete"
-              disabled={composer.name === "Unknown"}
-              onClick={() =>
-                deleteComposer(composer.safe_name, () => {
-                  resetData();
-                  window.location.replace("/");
-                })
-              }
-            >
-              <DeleteIcon />
-            </IconButton>
-            <Modal title="Edit" onClose={() => setModal(false)} show={modal}>
-              <ModalContent
-                onClose={() => setModal(false)}
-                composer={composer}
-              />
-            </Modal>
-            <ul className="all-sheets-container full-height">
-              {composer.sheets === undefined
-                ? getData()
-                : composer.sheets.map((sheet) => {
-                    return <SheetBox sheet={sheet} />;
-                  })}
-            </ul>
-          </div>
-        ) : (
-          <p>loading</p>
-        )}
+        {!loading
+          ? (
+              <div className="composer-page">
+                <img src={imgUrl} className="portrait-page" alt="Portrait" />
+                <h5>{composer.name}</h5>
+                <h6>{composer.epoch}</h6>
+                <IconButton
+                  onClick={() => setModal(true)}
+                  className="edit"
+                  disabled={composer.name === "Unknown"}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  className="delete"
+                  disabled={composer.name === "Unknown"}
+                  onClick={() =>
+                    deleteComposer(composer.safe_name, () => {
+                      resetData();
+                      window.location.replace("/");
+                    })}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Modal title="Edit" onClose={() => setModal(false)} show={modal}>
+                  <ModalContent
+                    onClose={() => setModal(false)}
+                    composer={composer}
+                  />
+                </Modal>
+                <ul className="all-sheets-container full-height">
+                  {composer.sheets === undefined
+                    ? getData()
+                    : composer.sheets.map((sheet) => {
+                      return <SheetBox sheet={sheet} />;
+                    })}
+                </ul>
+              </div>
+            )
+          : (
+              <p>loading</p>
+            )}
       </div>
-    </Fragment>
+    </>
   );
 }
 
-const mapStateToProps = (state) => ({
-  composerPages: state.data.composerPages,
-  composers: state.data.composers,
-  composerPage: state.data.composerPage,
-  totalComposerPages: state.data.totalComposerPages,
-});
+function mapStateToProps(state) {
+  return {
+    composerPages: state.data.composerPages,
+    composers: state.data.composers,
+    composerPage: state.data.composerPage,
+    totalComposerPages: state.data.totalComposerPages,
+  };
+}
 
 const mapActionsToProps = {
   getSheetPage,

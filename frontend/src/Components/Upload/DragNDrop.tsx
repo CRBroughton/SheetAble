@@ -16,10 +16,10 @@ import { uploadSheet } from "../../Redux/Actions/dataActions";
 
 registerPlugin(FilePondPluginFileValidateType);
 
-function DragNDrop({ giveModalData } ) {
-  //const [files, setFiles] = useState(undefined)
+function DragNDrop({ giveModalData }) {
+  // const [files, setFiles] = useState(undefined)
 
-  const uploadFinish = (files: { file: any; }[]) => {
+  const uploadFinish = (files: { file: any }[]) => {
     giveModalData(files[0].file);
   };
 
@@ -45,7 +45,7 @@ function DragNDrop({ giveModalData } ) {
             progress,
             abort,
             transfer,
-            options
+            options,
           ) => {
             load();
           },
@@ -54,7 +54,7 @@ function DragNDrop({ giveModalData } ) {
         name="files"
         labelIdle='Drag & Drop your file or <span class="filepond--label-action">Browse</span>'
         credits={false}
-        allowFileTypeValidation={true}
+        allowFileTypeValidation
         acceptedFileTypes={["application/pdf"]}
       />
     </div>
@@ -69,6 +69,6 @@ const mapActionsToProps = {
   uploadSheet,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapActionsToProps)(DragNDrop);

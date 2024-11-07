@@ -1,13 +1,13 @@
-import React, { Component } from "react";
 import PropTypes from "prop-types";
+import React, { Component } from "react";
 
 // Redux stuff
 import { connect } from "react-redux";
 
+import { Redirect } from "react-router-dom";
+
 // Pages
 import HomePage from "./HomePage";
-
-import { Redirect } from "react-router-dom";
 
 class HomePageProvider extends Component {
   render() {
@@ -24,8 +24,10 @@ HomePageProvider.propTypes = {
   authenticated: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  authenticated: state.user.authenticated,
-});
+function mapStateToProps(state) {
+  return {
+    authenticated: state.user.authenticated,
+  };
+}
 
 export default connect(mapStateToProps)(HomePageProvider);

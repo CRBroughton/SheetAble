@@ -11,7 +11,7 @@ import {
 function ModalContent(props) {
   const [tagName, setTagName] = useState("");
   const [infoText, setInfoText] = useState(
-    "Write a short information text about your sheet."
+    "Write a short information text about your sheet.",
   );
   const [value, setValue] = useState(props.tags[0]);
   const [showInfoEdit, setShowInfoEdit] = useState(false);
@@ -28,7 +28,7 @@ function ModalContent(props) {
           multiline
           rows={6}
           value={infoText}
-          onChange={(e) => setInfoText(e.target.value)}
+          onChange={e => setInfoText(e.target.value)}
         />
       </form>
       <div className="buttons">
@@ -64,7 +64,7 @@ function ModalContent(props) {
               className="form-field"
               name="tagName"
               value={tagName}
-              onChange={(e) => setTagName(e.target.value)}
+              onChange={e => setTagName(e.target.value)}
             />
           </form>
           <div className="buttons">
@@ -87,8 +87,8 @@ function ModalContent(props) {
         </div>
         <div>
           <form noValidate autoComplete="off">
-            <select onChange={(e) => setValue(e.target.value)} value={value}>
-              {props.tags.map((tag) => (
+            <select onChange={e => setValue(e.target.value)} value={value}>
+              {props.tags.map(tag => (
                 <option value={tag}>{tag}</option>
               ))}
             </select>
@@ -113,6 +113,6 @@ const mapActionsToProps = {
   editInfoText,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapActionsToProps)(ModalContent);

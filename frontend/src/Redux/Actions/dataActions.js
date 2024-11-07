@@ -1,76 +1,90 @@
-import {
-  LOADING_DATA,
-  SET_SHEETS,
-  LOADING_COMPOSERS,
-  SET_COMPOSERS,
-  RESET_DATA,
-  SET_PAGE_SHEETS,
-  INCREMENT_SHEET_PAGE,
-  DECREMENT_SHEET_PAGE,
-  SET_SHEET_PAGE,
-  SET_TOTAL_SHEET_PAGES,
-  SET_PAGE_COMPOSERS,
-  SET_TOTAL_COMPOSER_PAGES,
-  INCREMENT_COMPOSER_PAGE,
-  DECREMENT_COMPOSER_PAGE,
-  SET_COMPOSER_PAGE,
-  SET_USERS_DATA,
-} from "../types";
 import axios from "axios";
-
-import { store } from "../store";
-import { logoutUser } from "./userActions";
 import { checkAuthErr } from "../../Utils/httpUtils";
 
-// Get all Sheets
-export const getSheets = () => (dispatch) => {
-  dispatch({ type: LOADING_DATA });
-  axios
-    .get("/sheets")
-    .then((res) => {
-      dispatch({
-        type: SET_SHEETS,
-        payload: res.data.rows,
-      });
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
+import { store } from "../store";
+import {
+  DECREMENT_COMPOSER_PAGE,
+  DECREMENT_SHEET_PAGE,
+  INCREMENT_COMPOSER_PAGE,
+  INCREMENT_SHEET_PAGE,
+  LOADING_COMPOSERS,
+  LOADING_DATA,
+  RESET_DATA,
+  SET_COMPOSER_PAGE,
+  SET_COMPOSERS,
+  SET_PAGE_COMPOSERS,
+  SET_PAGE_SHEETS,
+  SET_SHEET_PAGE,
+  SET_SHEETS,
+  SET_TOTAL_COMPOSER_PAGES,
+  SET_TOTAL_SHEET_PAGES,
+  SET_USERS_DATA,
+} from "../types";
+import { logoutUser } from "./userActions";
 
-      dispatch({
-        type: SET_SHEETS,
-        payload: [],
+// Get all Sheets
+export function getSheets() {
+  return (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+    axios
+      .get("/sheets")
+      .then((res) => {
+        dispatch({
+          type: SET_SHEETS,
+          payload: res.data.rows,
+        });
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+
+        dispatch({
+          type: SET_SHEETS,
+          payload: [],
+        });
       });
-    });
-};
+  };
+}
 
 /* Page navigation */
-export const incrementSheetPage = () => (dispatch) => {
-  dispatch({ type: INCREMENT_SHEET_PAGE });
-};
+export function incrementSheetPage() {
+  return (dispatch) => {
+    dispatch({ type: INCREMENT_SHEET_PAGE });
+  };
+}
 
-export const incrementComposerPage = () => (dispatch) => {
-  dispatch({ type: INCREMENT_COMPOSER_PAGE });
-};
+export function incrementComposerPage() {
+  return (dispatch) => {
+    dispatch({ type: INCREMENT_COMPOSER_PAGE });
+  };
+}
 
-export const decrementSheetPage = () => (dispatch) => {
-  dispatch({ type: DECREMENT_SHEET_PAGE });
-};
+export function decrementSheetPage() {
+  return (dispatch) => {
+    dispatch({ type: DECREMENT_SHEET_PAGE });
+  };
+}
 
-export const decrementComposerPage = () => (dispatch) => {
-  dispatch({ type: DECREMENT_COMPOSER_PAGE });
-};
+export function decrementComposerPage() {
+  return (dispatch) => {
+    dispatch({ type: DECREMENT_COMPOSER_PAGE });
+  };
+}
 
-export const setSheetPage = (page) => (dispatch) => {
-  dispatch({ type: SET_SHEET_PAGE, payload: page });
-};
+export function setSheetPage(page) {
+  return (dispatch) => {
+    dispatch({ type: SET_SHEET_PAGE, payload: page });
+  };
+}
 
-export const setComposerPage = (page) => (dispatch) => {
-  dispatch({ type: SET_COMPOSER_PAGE, payload: page });
-};
+export function setComposerPage(page) {
+  return (dispatch) => {
+    dispatch({ type: SET_COMPOSER_PAGE, payload: page });
+  };
+}
 
 /* Get specific sheet data from page
     data parameter:
@@ -79,17 +93,16 @@ export const setComposerPage = (page) => (dispatch) => {
             sortBy: updated_at desc
         }
 */
-export const getSheetPage =
-  (data = {}, _callback) =>
-  (dispatch) => {
+export function getSheetPage(data = {}, _callback) {
+  return (dispatch) => {
     dispatch({ type: LOADING_DATA });
 
-    let bodyFormData = new FormData();
+    const bodyFormData = new FormData();
     bodyFormData.append("page", data.page === undefined ? 1 : data.page);
     bodyFormData.append("limit", 50);
     bodyFormData.append(
       "sort_by",
-      data.sortBy === undefined ? "updated_at desc" : data.sortBy
+      data.sortBy === undefined ? "updated_at desc" : data.sortBy,
     );
 
     if (data.composer !== undefined) {
@@ -123,6 +136,7 @@ export const getSheetPage =
         console.log(err);
       });
   };
+}
 
 /* Get specific composer data from page
     data parameter:
@@ -131,17 +145,16 @@ export const getSheetPage =
             sortBy: updated_at desc
         }
 */
-export const getComposerPage =
-  (data = {}, _callback) =>
-  (dispatch) => {
+export function getComposerPage(data = {}, _callback) {
+  return (dispatch) => {
     dispatch({ type: LOADING_DATA });
 
-    let bodyFormData = new FormData();
+    const bodyFormData = new FormData();
     bodyFormData.append("page", data.page === undefined ? 1 : data.page);
     bodyFormData.append("limit", 50);
     bodyFormData.append(
       "sort_by",
-      data.sortBy === undefined ? "updated_at desc" : data.sortBy
+      data.sortBy === undefined ? "updated_at desc" : data.sortBy,
     );
 
     axios
@@ -172,105 +185,114 @@ export const getComposerPage =
         }
       });
   };
+}
 
 // Get all composers sorted by newest
-export const getComposers = () => (dispatch) => {
-  dispatch({ type: LOADING_COMPOSERS });
-  axios
-    .get("/composers")
-    .then((res) => {
-      dispatch({
-        type: SET_COMPOSERS,
-        payload: res.data.rows,
-      });
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
+export function getComposers() {
+  return (dispatch) => {
+    dispatch({ type: LOADING_COMPOSERS });
+    axios
+      .get("/composers")
+      .then((res) => {
+        dispatch({
+          type: SET_COMPOSERS,
+          payload: res.data.rows,
+        });
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
 
-      console.log(err);
-      dispatch({
-        type: SET_COMPOSERS,
-        payload: [],
+        console.log(err);
+        dispatch({
+          type: SET_COMPOSERS,
+          payload: [],
+        });
       });
-    });
-};
+  };
+}
 
 // Upload a sheet
-export const uploadSheet = (data, _callback) => (dispatch) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append("uploadFile", data.uploadFile);
-  bodyFormData.append("sheetName", data.sheetName);
-  bodyFormData.append("composer", data.composer);
-  bodyFormData.append("releaseDate", data.releaseDate);
+export function uploadSheet(data, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("uploadFile", data.uploadFile);
+    bodyFormData.append("sheetName", data.sheetName);
+    bodyFormData.append("composer", data.composer);
+    bodyFormData.append("releaseDate", data.releaseDate);
 
-  axios
-    .post("/upload", bodyFormData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((res) => {
-      _callback();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
+    axios
+      .post("/upload", bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        _callback();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
 
-      console.log(err);
-    });
-};
+        console.log(err);
+      });
+  };
+}
 
 // Update a sheet
-export const updateSheet = (data, origSheetName, _callback) => (dispatch) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append("uploadFile", data.uploadFile);
-  bodyFormData.append("sheetName", data.sheetName);
-  bodyFormData.append("composer", data.composer);
-  bodyFormData.append("releaseDate", data.releaseDate);
+export function updateSheet(data, origSheetName, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("uploadFile", data.uploadFile);
+    bodyFormData.append("sheetName", data.sheetName);
+    bodyFormData.append("composer", data.composer);
+    bodyFormData.append("releaseDate", data.releaseDate);
 
-  axios
-    .put(`/sheet/${origSheetName}`, bodyFormData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((res) => {
-      _callback();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
+    axios
+      .put(`/sheet/${origSheetName}`, bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        _callback();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
 
-      console.log(err);
-    });
-};
+        console.log(err);
+      });
+  };
+}
 
 // Delete a sheet
-export const deleteSheet = (origSheetName, _callback) => (dispatch) => {
-  axios
-    .delete(`/sheet/${origSheetName}`)
-    .then((res) => {
-      _callback();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
+export function deleteSheet(origSheetName, _callback) {
+  return (dispatch) => {
+    axios
+      .delete(`/sheet/${origSheetName}`)
+      .then((res) => {
+        _callback();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
 
-export const editComposer =
-  (origName, name, epoch, file, _callback) => (dispatch) => {
-    let bodyFormData = new FormData();
+export function editComposer(origName, name, epoch, file, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
     bodyFormData.append("name", name);
     bodyFormData.append("epoch", epoch);
     if (file !== undefined) {
@@ -290,124 +312,142 @@ export const editComposer =
         console.log(err);
       });
   };
-
-export const deleteComposer = (name, _callback) => (dispatch) => {
-  axios
-    .delete(`/composer/${name}`)
-    .then(() => {
-      _callback();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
-
-export const searchData = (searchValue, _callback) => (dispatch) => {
-  axios
-    .get(`/search/${searchValue}`)
-    .then((res) => {
-      _callback(res.data);
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
-
-export const getTagSheets = (tagName, _callback) => (dispatch) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append("tagValue", tagName);
-
-  axios
-    .post("/tag", bodyFormData)
-    .then((res) => {
-      _callback(res.data);
-    })
-    .catch((err) => {
-      if (err.request && err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
-
-export const addNewTag = (tagName, sheetName, _callback) => (dispatch) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append("tagValue", tagName);
-
-  axios
-    .post(`/tag/sheet/${sheetName}`, bodyFormData)
-    .then((res) => {
-      store.dispatch(resetData());
-      window.location.reload();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
-
-export const deleteTag = (tagName, sheetName, _callback) => (dispatch) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append("tagValue", tagName);
-
-  axios
-    .post(`/tag/delete/sheet/${sheetName}`, bodyFormData)
-    .then((res) => {
-      store.dispatch(resetData());
-      window.location.reload();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
-
-export const editInfoText = (infoText, sheetName, _callback) => (dispatch) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append("informationText", infoText);
-
-  axios
-    .post(`/sheet/${sheetName}/info`, bodyFormData)
-    .then(() => {
-      store.dispatch(resetData());
-      window.location.reload();
-    })
-    .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-      console.log(err);
-    });
-};
-
-export const getUsersData = () => (dispatch) => {
-  dispatch({ type: LOADING_DATA })
-  axios
-    .get("/users")
-    .then(res => {
-      dispatch({
-        type: SET_USERS_DATA,
-        payload: res.data
-      })
-    }).catch(err => checkAuthErr(err, dispatch))
 }
 
-export const resetData = () => (dispatch) => {
-  dispatch({ type: RESET_DATA });
-};
+export function deleteComposer(name, _callback) {
+  return (dispatch) => {
+    axios
+      .delete(`/composer/${name}`)
+      .then(() => {
+        _callback();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
+
+export function searchData(searchValue, _callback) {
+  return (dispatch) => {
+    axios
+      .get(`/search/${searchValue}`)
+      .then((res) => {
+        _callback(res.data);
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
+
+export function getTagSheets(tagName, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("tagValue", tagName);
+
+    axios
+      .post("/tag", bodyFormData)
+      .then((res) => {
+        _callback(res.data);
+      })
+      .catch((err) => {
+        if (err.request && err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
+
+export function addNewTag(tagName, sheetName, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("tagValue", tagName);
+
+    axios
+      .post(`/tag/sheet/${sheetName}`, bodyFormData)
+      .then((res) => {
+        store.dispatch(resetData());
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
+
+export function deleteTag(tagName, sheetName, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("tagValue", tagName);
+
+    axios
+      .post(`/tag/delete/sheet/${sheetName}`, bodyFormData)
+      .then((res) => {
+        store.dispatch(resetData());
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
+
+export function editInfoText(infoText, sheetName, _callback) {
+  return (dispatch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("informationText", infoText);
+
+    axios
+      .post(`/sheet/${sheetName}/info`, bodyFormData)
+      .then(() => {
+        store.dispatch(resetData());
+        window.location.reload();
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+  };
+}
+
+export function getUsersData() {
+  return (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+    axios
+      .get("/users")
+      .then((res) => {
+        dispatch({
+          type: SET_USERS_DATA,
+          payload: res.data,
+        });
+      })
+      .catch(err => checkAuthErr(err, dispatch));
+  };
+}
+
+export function resetData() {
+  return (dispatch) => {
+    dispatch({ type: RESET_DATA });
+  };
+}

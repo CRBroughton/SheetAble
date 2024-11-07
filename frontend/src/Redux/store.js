@@ -1,12 +1,12 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 
-import userReducer from "./Reducers/userReducer";
 import dataReducer from "./Reducers/dataReducer";
 import uiReducer from "./Reducers/uiReducer";
+import userReducer from "./Reducers/userReducer";
 
 /* Persisted Redux */
-import { persistStore, persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const initialState = {};
@@ -22,7 +22,7 @@ const reducers = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 /*
-Create a persisted store to keep the store whlie refreshing the page 
+Create a persisted store to keep the store whlie refreshing the page
 */
 
 const persistConfig = {
@@ -35,8 +35,8 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(
   persistedReducer,
   initialState,
-  composeEnhancers(applyMiddleware(...middleware))
+  composeEnhancers(applyMiddleware(...middleware)),
 );
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 
-export { store, persistor };
+export { persistor, store };

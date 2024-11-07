@@ -1,10 +1,10 @@
+import { Button } from "@material-ui/core";
+
+import TextField from "@material-ui/core/TextField";
 import React, { useState } from "react";
 
-import { Button } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-
 /* eslint-disable */
-// eslint-disable-next-line
+ 
 const re =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 /* eslint-enable */
@@ -38,9 +38,9 @@ function CreateAccountContent(props) {
         <TextField
           id="standard-basic"
           error={
-            !re.test(requestData.email) &&
-            requestData.email !== "" &&
-            requestData.lastFocus !== "email"
+            !re.test(requestData.email)
+            && requestData.email !== ""
+            && requestData.lastFocus !== "email"
           }
           type="email"
           label="E-Mail"
@@ -48,9 +48,9 @@ function CreateAccountContent(props) {
           name="email"
           onChange={handleChange}
           helperText={
-            !re.test(requestData.email) &&
-            requestData.email &&
-            (requestData.lastFocus !== "email") !== ""
+            !re.test(requestData.email)
+            && requestData.email
+            && (requestData.lastFocus !== "email") !== ""
               ? "Email address is not valid"
               : ""
           }
@@ -67,8 +67,8 @@ function CreateAccountContent(props) {
         <TextField
           id="standard-password-input"
           error={
-            requestData.password !== requestData.confirmPassword &&
-            requestData.confirmPassword !== ""
+            requestData.password !== requestData.confirmPassword
+            && requestData.confirmPassword !== ""
           }
           type="password"
           label="Confirm Password"
@@ -76,8 +76,8 @@ function CreateAccountContent(props) {
           name="confirmPassword"
           autoComplete="new-password"
           helperText={
-            requestData.password !== requestData.confirmPassword &&
-            requestData.confirmPassword !== ""
+            requestData.password !== requestData.confirmPassword
+            && requestData.confirmPassword !== ""
               ? "Passwords do not match."
               : ""
           }
@@ -88,9 +88,9 @@ function CreateAccountContent(props) {
         variant="contained"
         color="primary"
         disabled={
-          requestData.email === "" ||
-          requestData.password === "" ||
-          requestData.confirmPassword !== requestData.password
+          requestData.email === ""
+          || requestData.password === ""
+          || requestData.confirmPassword !== requestData.password
         }
         onClick={sendRequest}
       >

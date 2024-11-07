@@ -1,20 +1,20 @@
+import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import "./SideBar.css";
 
-import { setSidebar, getVersion } from "../../Redux/Actions/uiActions";
+import { connect } from "react-redux";
 import {
-  getSheets,
-  getComposers,
   getComposerPage,
+  getComposers,
   getSheetPage,
+  getSheets,
   resetData,
 } from "../../Redux/Actions/dataActions";
+import { getVersion, setSidebar } from "../../Redux/Actions/uiActions";
 import { logoutUser } from "../../Redux/Actions/userActions";
-import { connect } from "react-redux";
 import Modal from "./Modal/Modal";
 import ModalContent from "./Modal/ModalContent";
+import "./SideBar.css";
 import "./FalseVersion.css";
-import axios from "axios";
 
 function SideBar(props) {
   const [uploadModal, setUploadModal] = useState(false);
@@ -41,13 +41,14 @@ function SideBar(props) {
   }, []);
 
   return (
-    <Fragment>
+    <>
       {falseVersion && (
         <div
           className={sidebar ? "false-version" : "false-version false-active"}
         >
           <div>
-            There is a new version of SheetAble available!{" "}
+            There is a new version of SheetAble available!
+            {" "}
             <a
               href="https://github.com/SheetAble/SheetAble/releases"
               target="_"
@@ -63,14 +64,17 @@ function SideBar(props) {
         <div className="logo_content">
           <div className="logo">
             <div className="logo_name">
-              SheetAble <span>{props.version}</span>
+              SheetAble
+              {" "}
+              <span>{props.version}</span>
             </div>
           </div>
           <i
             className={sidebar ? "bx bx-menu" : "bx bx-menu-alt-right"}
             id="btn"
             onClick={onClickBtn}
-          ></i>
+          >
+          </i>
         </div>
         <ul className="nav_list">
           <li>
@@ -159,20 +163,23 @@ function SideBar(props) {
                 onClick={() => {
                   props.logoutUser();
                 }}
-              ></i>
+              >
+              </i>
             </a>
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 
-const mapStateToProps = (state) => ({
-  sidebar: state.UI.sidebar,
-  userData: state.user.userData,
-  version: state.UI.version,
-});
+function mapStateToProps(state) {
+  return {
+    sidebar: state.UI.sidebar,
+    userData: state.user.userData,
+    version: state.UI.version,
+  };
+}
 
 const mapActionsToProps = {
   setSidebar,

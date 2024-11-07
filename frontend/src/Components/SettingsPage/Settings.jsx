@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import SettingsSvg from "../../Images/Settings.svg";
 import { createUser } from "../../Redux/Actions/userActions";
 import SideBar from "../Sidebar/SideBar";
-import "./Settings.css";
 import UserManagement from "./Table/UserManagement";
+import "./Settings.css";
 
 function Settings(props) {
   const [admin] = useState(props.userData.id === 1);
@@ -15,14 +15,16 @@ function Settings(props) {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <SideBar />
       <div className="home_content settings">
         <div className="doc_header">
           <span className="doc_sheet">Settings</span>
           <br />
           <span className="doc_composer ">
-            Account Status: <b>{admin ? "Admin" : "Non Admin"}</b>
+            Account Status:
+            {" "}
+            <b>{admin ? "Admin" : "Non Admin"}</b>
             {!admin && (
               <div className="no-settings">
                 {" "}
@@ -32,23 +34,27 @@ function Settings(props) {
           </span>
         </div>
 
-        {admin ? (
-          <div className="admin-wrapper">
-            <UserManagement createUser={createUser} />
-          </div>
-        ) : (
-          <div className="non-admin-wrapper">
-            <img src={SettingsSvg} alt="" />
-          </div>
-        )}
+        {admin
+          ? (
+              <div className="admin-wrapper">
+                <UserManagement createUser={createUser} />
+              </div>
+            )
+          : (
+              <div className="non-admin-wrapper">
+                <img src={SettingsSvg} alt="" />
+              </div>
+            )}
       </div>
-    </Fragment>
+    </>
   );
 }
 
-const mapStateToProps = (state) => ({
-  userData: state.user.userData,
-});
+function mapStateToProps(state) {
+  return {
+    userData: state.user.userData,
+  };
+}
 
 const mapActionsToProps = {
   createUser,

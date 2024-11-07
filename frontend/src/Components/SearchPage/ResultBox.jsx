@@ -1,16 +1,18 @@
 import React from "react";
-import SheetBox from "../SheetsPage/Components/SheetBox";
-
 import SearchSvg from "../../Images/Taken.svg";
+
+import SheetBox from "../SheetsPage/Components/SheetBox";
 
 function ResultBox({ searchResponse }) {
   return (
     <div className="result_wrapper">
-      {searchResponse.length === 0 ? (
-        <NoResults />
-      ) : (
-        <Results searchResponse={searchResponse} />
-      )}
+      {searchResponse.length === 0
+        ? (
+            <NoResults />
+          )
+        : (
+            <Results searchResponse={searchResponse} />
+          )}
     </div>
   );
 }

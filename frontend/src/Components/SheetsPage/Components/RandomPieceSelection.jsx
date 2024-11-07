@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-
-import LoadingAnimation from "../../../Images/Animations/Loading.svg";
-import "./BubblyButton.css";
-import { useHistory } from "react-router";
-
 import axios from "axios";
+
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import LoadingAnimation from "../../../Images/Animations/Loading.svg";
+
+import "./BubblyButton.css";
 
 function RandomPieceSelection({ sheetPages, page }) {
   const [loading, setLoading] = useState(true);
@@ -25,9 +25,9 @@ function RandomPieceSelection({ sheetPages, page }) {
     setLoading(false);
   }, []);
 
-  var animateButton = function (e) {
+  const animateButton = function (e) {
     e.preventDefault();
-    //reset animation
+    // reset animation
 
     setBubblyButton("bubbly-button");
 
@@ -36,40 +36,41 @@ function RandomPieceSelection({ sheetPages, page }) {
     setSheet(pickPiece());
     setLoading(false);
 
-    setTimeout(function () {
+    setTimeout(() => {
       setBubblyButton("bubbly-button");
     }, 700);
   };
 
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <div className="box rand-piece remove_shadow">
-      {loading ? (
-        <img className="loading-animation-rand" src={LoadingAnimation} alt="" />
-      ) : (
-        <div>
-          <div>
-            <img
-              className="rand-img cursor"
-              src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.safe_sheet_name}`}
-              alt="Sheet Thumbnail"
-              onClick={() =>
-                history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)
-              }
-            />
-            <div className="sheet-name-container n-cursor">
-              <span className="sheet-name">{sheet.sheet_name}</span>
+      {loading
+        ? (
+            <img className="loading-animation-rand" src={LoadingAnimation} alt="" />
+          )
+        : (
+            <div>
+              <div>
+                <img
+                  className="rand-img cursor"
+                  src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.safe_sheet_name}`}
+                  alt="Sheet Thumbnail"
+                  onClick={() =>
+                    history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}
+                />
+                <div className="sheet-name-container n-cursor">
+                  <span className="sheet-name">{sheet.sheet_name}</span>
+                </div>
+                <div className="sheet-composer-container">
+                  <span className="sheet-composer">{sheet.composer}</span>
+                </div>
+              </div>
+              <button onClick={animateButton} className={bubblyButton}>
+                Shuffle
+              </button>
             </div>
-            <div className="sheet-composer-container">
-              <span className="sheet-composer">{sheet.composer}</span>
-            </div>
-          </div>
-          <button onClick={animateButton} className={bubblyButton}>
-            Shuffle
-          </button>
-        </div>
-      )}
+          )}
     </div>
   );
 }

@@ -2,41 +2,40 @@
 	This file needs to be rewritten soon due to being not properly readable anymore
 */
 
-import React, { useEffect, useState, Fragment } from "react";
-import { useParams } from "react-router-dom";
-
-import { Document, pdfjs, Page } from "react-pdf";
-
-import SideBar from "../Sidebar/SideBar";
-import "./Sheet.css";
-
 import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
+
+import { Document, Page, pdfjs } from "react-pdf";
+
+import { useHistory, useParams } from "react-router-dom";
+import SideBar from "../Sidebar/SideBar";
+
+import "./Sheet.css";
 
 /* Utils */
 import {
   displayTimeAsString,
-  findSheetByPages,
-  findComposerByPages,
-  findSheetBySheets,
   findComposerByComposers,
+  findComposerByPages,
+  findSheetByPages,
+  findSheetBySheets,
   getCompImgUrl,
 } from "../../Utils/utils";
 
 /* Redux stuff */
 import { connect } from "react-redux";
-import { store } from "../../Redux/store";
-import { logoutUser } from "../../Redux/Actions/userActions";
 import {
   getComposerPage,
   getSheetPage,
-  setSheetPage,
   setComposerPage,
+  setSheetPage,
 } from "../../Redux/Actions/dataActions";
-import { useHistory } from "react-router-dom";
+import { logoutUser } from "../../Redux/Actions/userActions";
+import { store } from "../../Redux/store";
 
 import Modal from "../Sidebar/Modal/Modal";
-import ModalContent from "./Components/ModalContent";
 import InformationCard from "./Components/InformationCard";
+import ModalContent from "./Components/ModalContent";
 
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -77,13 +76,13 @@ function Sheet({
     return () => window.removeEventListener("resize", updateMedia);
   });
 
-  let { safeSheetName, safeComposerName } = useParams();
+  const { safeSheetName, safeComposerName } = useParams();
 
   const getSheetDataReq = async (_callback) => {
     if (
-      sheetPage === undefined ||
-      sheetPages < 0 ||
-      sheetPages > totalSheetPages
+      sheetPage === undefined
+      || sheetPages < 0
+      || sheetPages > totalSheetPages
     ) {
       setSheetPage(1);
     }
@@ -100,9 +99,9 @@ function Sheet({
 
   const getComposerDataReq = async (_callback) => {
     if (
-      composerPage === undefined ||
-      composerPages < 0 ||
-      composerPages > totalComposerPages
+      composerPage === undefined
+      || composerPages < 0
+      || composerPages > totalComposerPages
     ) {
       setComposerPage(1);
     }
@@ -113,8 +112,8 @@ function Sheet({
     };
 
     if (
-      composerPages === undefined ||
-      composerPages[composerPage] === undefined
+      composerPages === undefined
+      || composerPages[composerPage] === undefined
     ) {
       await getComposerPage(data, () => window.location.reload());
     }
@@ -130,7 +129,7 @@ function Sheet({
       ? bySheets === undefined
         ? getSheetDataReq()
         : bySheets
-      : bySheetPages
+      : bySheetPages,
   );
 
   const byComposerPages = findComposerByPages(safeComposerName, composerPages);
@@ -141,7 +140,7 @@ function Sheet({
       ? byComposers === undefined
         ? getComposerDataReq()
         : byComposers
-      : byComposerPages
+      : byComposerPages,
   );
 
   const pdfRequest = () => {
@@ -173,7 +172,7 @@ function Sheet({
   }
 
   function changePage(offset) {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
+    setPageNumber(prevPageNumber => prevPageNumber + offset);
   }
 
   function previousPage(e) {
@@ -186,7 +185,7 @@ function Sheet({
     changePage(1);
   }
 
-  let history = useHistory();
+  const history = useHistory();
 
   const [pdfDownloadData, setPdfDownloadData] = useState({
     link: "",
@@ -194,7 +193,7 @@ function Sheet({
   });
 
   function saveByteArray(reportName, byte) {
-    var blob = new Blob([byte], { type: "application/pdf" });
+    const blob = new Blob([byte], { type: "application/pdf" });
     setPdfDownloadData({
       ...pdfDownloadData,
       link: window.URL.createObjectURL(blob),
@@ -205,10 +204,10 @@ function Sheet({
   const [copyText, setCopyText] = useState("Click to Copy");
 
   const handleClick = () => {
-    navigator.clipboard.writeText(window.location.href).then(()=>{
-      setCopyText("Copied ✓")
-    }).catch(()=>{
-      setCopyText("Click to Copy")
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopyText("Copied ✓");
+    }).catch(() => {
+      setCopyText("Click to Copy");
     });
   };
 
@@ -220,7 +219,7 @@ function Sheet({
   const imgUrl = getCompImgUrl(composer.portrait_url);
 
   return (
-    <Fragment>
+    <>
       <SideBar />
       <div className="home_content">
         <div className="document_container">
@@ -249,7 +248,10 @@ function Sheet({
                 &lt;
               </button>
               <span>
-                {pageNumber} of {numPages}
+                {pageNumber}
+                {" "}
+                of
+                {numPages}
               </span>
               <button
                 type="button"
@@ -280,7 +282,10 @@ function Sheet({
               </div>
               <div>
                 <span className="bold sheet_info_info">Uploaded By:</span>
-                <span className="sheet_info_info"> {sheet.uploader_id}</span>
+                <span className="sheet_info_info">
+                  {" "}
+                  {sheet.uploader_id}
+                </span>
               </div>
 
               <div className="tooltip">
@@ -345,20 +350,22 @@ function Sheet({
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 
-const mapStateToProps = (state) => ({
-  sheetPages: state.data.sheetPages,
-  composerPages: state.data.composerPages,
-  sheets: state.data.sheets,
-  composers: state.data.composers,
-  sheetPage: state.data.sheetPage,
-  totalSheetPages: state.data.totalSheetPages,
-  composerPage: state.data.composerPage,
-  totalComposerPages: state.data.totalComposerPages,
-});
+function mapStateToProps(state) {
+  return {
+    sheetPages: state.data.sheetPages,
+    composerPages: state.data.composerPages,
+    sheets: state.data.sheets,
+    composers: state.data.composers,
+    sheetPage: state.data.sheetPage,
+    totalSheetPages: state.data.totalSheetPages,
+    composerPage: state.data.composerPage,
+    totalComposerPages: state.data.totalComposerPages,
+  };
+}
 
 const mapActionsToProps = {
   getSheetPage,

@@ -47,7 +47,7 @@ function UserManagement({ getUsersData, users, createUser }) {
   const [showCreateUserModal, setShowCreateUserModal] = React.useState(false);
 
   React.useEffect(() => {
-    let mappedUsers = [];
+    const mappedUsers = [];
     users.map((user) => {
       const u = {
         id: user.id,
@@ -76,9 +76,9 @@ function UserManagement({ getUsersData, users, createUser }) {
         columns={columns}
         pageSize={10}
         checkboxSelection={false}
-        disableColumnSelector={true}
-        disableSelectionOnClick={true}
-        disableRowSelector={true}
+        disableColumnSelector
+        disableSelectionOnClick
+        disableRowSelector
         rowsPerPageOptions={[10]}
       />
       <Button
@@ -102,9 +102,11 @@ function UserManagement({ getUsersData, users, createUser }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  users: state.data.usersData,
-});
+function mapStateToProps(state) {
+  return {
+    users: state.data.usersData,
+  };
+}
 
 const mapActionsToProps = {
   getUsersData,

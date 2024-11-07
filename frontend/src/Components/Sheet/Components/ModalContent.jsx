@@ -33,26 +33,28 @@ function ModalContent(props) {
   const [uploadFile, setUploadFile] = useState(
     dataURLtoFile(
       arrayBufferToBase64(props.uploadFile.data, "pdf"),
-      `${props.sheet.safe_sheet_name}.pdf`
-    )
+      `${props.sheet.safe_sheet_name}.pdf`,
+    ),
   );
 
   useEffect(() => {
     if (
-      requestData.composer !== props.sheet.composer ||
-      requestData.sheetName !== props.sheet.sheet_name ||
-      pdfChange
+      requestData.composer !== props.sheet.composer
+      || requestData.sheetName !== props.sheet.sheet_name
+      || pdfChange
     ) {
       if (
-        requestData.composer !== "" &&
-        requestData.sheetName !== "" &&
-        uploadFile !== undefined
+        requestData.composer !== ""
+        && requestData.sheetName !== ""
+        && uploadFile !== undefined
       ) {
         setDisabled(false);
-      } else if (uploadFile === undefined) {
+      }
+      else if (uploadFile === undefined) {
         setDisabled(true);
       }
-    } else {
+    }
+    else {
       setDisabled(true);
     }
   }, [requestData, uploadFile]);
@@ -76,33 +78,33 @@ function ModalContent(props) {
       binary += String.fromCharCode(bytes[i]);
     }
     const file = window.btoa(binary);
-    const mimType =
-      Filetype === "pdf"
+    const mimType
+      = Filetype === "pdf"
         ? "application/pdf"
         : Filetype === "xlsx"
-        ? "application/xlsx"
-        : Filetype === "pptx"
-        ? "application/pptx"
-        : Filetype === "csv"
-        ? "application/csv"
-        : Filetype === "docx"
-        ? "application/docx"
-        : Filetype === "jpg"
-        ? "application/jpg"
-        : Filetype === "png"
-        ? "application/png"
-        : "";
+          ? "application/xlsx"
+          : Filetype === "pptx"
+            ? "application/pptx"
+            : Filetype === "csv"
+              ? "application/csv"
+              : Filetype === "docx"
+                ? "application/docx"
+                : Filetype === "jpg"
+                  ? "application/jpg"
+                  : Filetype === "png"
+                    ? "application/png"
+                    : "";
 
-    const url = `data:${mimType};base64,` + file;
+    const url = `data:${mimType};base64,${file}`;
     return url;
   }
 
   function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
 
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
@@ -114,7 +116,7 @@ function ModalContent(props) {
   const sendRequest = () => {
     const newData = {
       ...requestData,
-      uploadFile: uploadFile,
+      uploadFile,
     };
 
     props.updateSheet(newData, props.sheet.safe_sheet_name, () => {
@@ -173,7 +175,7 @@ function ModalContent(props) {
               progress,
               abort,
               transfer,
-              options
+              options,
             ) => {
               load();
             },
@@ -182,7 +184,7 @@ function ModalContent(props) {
           name="files"
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           credits={false}
-          allowFileTypeValidation={true}
+          allowFileTypeValidation
           acceptedFileTypes={["application/pdf"]}
         />
       </div>
@@ -214,6 +216,6 @@ const mapActionsToProps = {
   deleteSheet,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapActionsToProps)(ModalContent);

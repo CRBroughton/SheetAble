@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
-import SideBar from "../Sidebar/SideBar";
-import "./SearchPage.css";
-
-import { searchData } from "../../Redux/Actions/dataActions";
 import { connect } from "react-redux";
+import { searchData } from "../../Redux/Actions/dataActions";
+
+import SideBar from "../Sidebar/SideBar";
 import ResultBox from "./ResultBox";
+import "./SearchPage.css";
 
 function SearchPage({ searchData }) {
   const [searchValue, setSearchValue] = useState("");
@@ -28,34 +28,33 @@ function SearchPage({ searchData }) {
 
   return (
     <div>
-      <Fragment>
-        <SideBar />
-        <div className="home_content">
-          <div className="search_wrapper">
-            <div className="search_input_box">
-              <input
-                type="text"
-                name="text"
-                placeholder="Search for sheets"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-              <i
-                className="bx bx-search-alt-2 cursor"
-                onClick={handleSubmit}
-              ></i>
-            </div>
-
-            <ResultBox searchResponse={searchResponse} />
+      <SideBar />
+      <div className="home_content">
+        <div className="search_wrapper">
+          <div className="search_input_box">
+            <input
+              type="text"
+              name="text"
+              placeholder="Search for sheets"
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <i
+              className="bx bx-search-alt-2 cursor"
+              onClick={handleSubmit}
+            >
+            </i>
           </div>
+
+          <ResultBox searchResponse={searchResponse} />
         </div>
-      </Fragment>
+      </div>
     </div>
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 const mapActionsToProps = {
   searchData,

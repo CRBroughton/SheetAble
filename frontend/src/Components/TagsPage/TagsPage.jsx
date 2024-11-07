@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router";
-import SideBar from "../Sidebar/SideBar";
-import { getTagSheets } from "../../Redux/Actions/dataActions";
 import { connect } from "react-redux";
+import { useParams } from "react-router";
+import { getTagSheets } from "../../Redux/Actions/dataActions";
 import { dominantColors } from "../../Utils/colors";
-import "./TagsPage.css";
 import SheetBox from "../SheetsPage/Components/SheetBox";
+import SideBar from "../Sidebar/SideBar";
+import "./TagsPage.css";
 
 function TagsPage({ getTagSheets }) {
   const { tagName } = useParams();
@@ -20,7 +20,7 @@ function TagsPage({ getTagSheets }) {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <SideBar />
       <div className="home_content tags_page">
         <div className="header">
@@ -36,20 +36,22 @@ function TagsPage({ getTagSheets }) {
           <h1>{decoded}</h1>
         </div>
         <div className="marg">
-          {sheets.length === 0 ? (
-            <p>loading</p>
-          ) : (
-            sheets.map((sheet) => {
-              return <SheetBox sheet={sheet} key={sheet.sheet_name} />;
-            })
-          )}
+          {sheets.length === 0
+            ? (
+                <p>loading</p>
+              )
+            : (
+                sheets.map((sheet) => {
+                  return <SheetBox sheet={sheet} key={sheet.sheet_name} />;
+                })
+              )}
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 const mapActionsToProps = {
   getTagSheets,

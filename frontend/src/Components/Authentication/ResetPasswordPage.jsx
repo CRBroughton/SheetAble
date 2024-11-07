@@ -39,9 +39,8 @@ export default function ResetPasswordPage() {
           className="email-input"
           type="password"
           value={passwordValue}
-          onChange={(event) =>
-            setPasswordVaule(event.target.value) & setError(0)
-          }
+          onChange={event =>
+            setPasswordVaule(event.target.value) & setError(0)}
           error={error === 2}
         />
         <TextField
@@ -51,9 +50,8 @@ export default function ResetPasswordPage() {
           className="email-input"
           type="password"
           value={confirmPasswordValue}
-          onChange={(event) =>
-            setConfirmPasswordVaule(event.target.value) & setError(0)
-          }
+          onChange={event =>
+            setConfirmPasswordVaule(event.target.value) & setError(0)}
           error={error === 2}
           helperText={
             error === 2

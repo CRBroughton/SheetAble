@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
           className="email-input"
           type="email"
           value={emailValue}
-          onChange={(event) => setEmailValue(event.target.value) & setError(0)}
+          onChange={event => setEmailValue(event.target.value) & setError(0)}
           error={error === 2}
           helperText={
             error === 2

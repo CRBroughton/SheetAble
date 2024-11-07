@@ -1,10 +1,10 @@
 import {
-  SET_ERRORS,
   CLEAR_ERRORS,
   LOADING_UI,
-  STOP_LOADING_UI,
+  SET_ERRORS,
   SET_SIDEBAR,
   SET_VERSION,
+  STOP_LOADING_UI,
 } from "../types";
 
 const initialState = {
