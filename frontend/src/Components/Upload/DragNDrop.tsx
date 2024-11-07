@@ -16,10 +16,10 @@ import { uploadSheet } from "../../Redux/Actions/dataActions";
 
 registerPlugin(FilePondPluginFileValidateType);
 
-function DragNDrop({ giveModalData }) {
+function DragNDrop({ giveModalData } ) {
   //const [files, setFiles] = useState(undefined)
 
-  const uploadFinish = (files) => {
+  const uploadFinish = (files: { file: any; }[]) => {
     giveModalData(files[0].file);
   };
 

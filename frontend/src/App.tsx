@@ -49,7 +49,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
 // Load token from localstorage and check it
 const token = localStorage.FBIdToken;
 if (token) {
-  let decodedToken = undefined;
+  let decodedToken: {exp: number} | undefined = undefined;
   try {
     decodedToken = jwtDecode(token);
   } catch {

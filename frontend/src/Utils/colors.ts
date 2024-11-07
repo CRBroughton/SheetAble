@@ -1,4 +1,4 @@
-export const dominantColors = [
+export const dominantColors: string[] = [
   "#FF6A6A",
   "#0DAB76",
   "#00E5E8",

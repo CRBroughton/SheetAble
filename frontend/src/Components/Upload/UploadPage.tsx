@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, type MouseEventHandler } from "react";
 import SideBar from "../Sidebar/SideBar";
 
 import "./Upload.css";
@@ -32,63 +32,65 @@ const InteractiveForm = () => {
     releaseDate: "1999-12-31",
   });
 
-  const firstButtonOnClick = (e) => {
+  const firstButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setfirstButtonText("Saving...");
     setcontainerClasses("container center slider-two-active");
   };
 
-  const secondButtonOnClick = (e) => {
+  const secondButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setSecondButtonText("Saving...");
     setcontainerClasses("container full slider-three-active");
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+   if (event.target) {
     setrequestData({
       ...requestData,
       [event.target.name]: event.target.value,
     });
+   }
   };
 
   return (
     <Fragment>
-      <div class={containerClasses}>
-        <div class="steps">
-          <div class="step step-one">
-            {/*<div class="liner"></div>*/}
+      <div className={containerClasses}>
+        <div className="steps">
+          <div className="step step-one">
+            {/*<div className="liner"></div>*/}
             <span>Information</span>
           </div>
-          <div class="step step-two">
-            {/*<div class="liner"></div>*/}
+          <div className="step step-two">
+            {/*<div className="liner"></div>*/}
             <span>Upload</span>
           </div>
-          <div class="step step-three">
-            {/*<div class="liner"></div>*/}
+          <div className="step step-three">
+            {/*<div className="liner"></div>*/}
             <span>Conclusion</span>
           </div>
         </div>
-        <div class="line">
-          <div class="dot-move"></div>
-          <div class="dot zero"></div>
-          <div class="dot center"></div>
-          <div class="dot full"></div>
+        <div className="line">
+          <div className="dot-move"></div>
+          <div className="dot zero"></div>
+          <div className="dot center"></div>
+          <div className="dot full"></div>
         </div>
-        <div class="slider-ctr">
-          <div class="slider">
-            <form class="slider-form slider-one">
+        <div className="slider-ctr">
+          <div className="slider">
+            <form className="slider-form slider-one">
               <h2>Type in the data of the sheet</h2>
-              <label class="input">
+              <label className="input">
                 <input
                   type="text"
-                  class="name"
+                  className="name"
                   name="sheetName"
                   placeholder="Sheet Name"
                   onChange={handleChange}
                 />
                 <input
                   type="text"
-                  class="name"
+                  className="name"
                   name="composer"
                   placeholder="Composer"
                   onChange={handleChange}
@@ -98,13 +100,13 @@ const InteractiveForm = () => {
                 disabled={
                   requestData.sheetName === "" || requestData.composer === ""
                 }
-                class="first next interactive-form-button"
+                className="first next interactive-form-button"
                 onClick={firstButtonOnClick}
               >
                 {firstButtonText}
               </button>
             </form>
-            <form class="slider-form slider-two">
+            <form className="slider-form slider-two">
               <h2>Upload the PDF</h2>
               <DragNDrop
                 requestData={requestData}
@@ -112,12 +114,12 @@ const InteractiveForm = () => {
                 secondButtonText={secondButtonText}
               />
             </form>
-            <div class="slider-form slider-three three">
+            <div className="slider-form slider-three three">
               <h2>
-                The Sheet, <span class="yourname">{requestData.sheetName}</span>
+                The Sheet, <span className="yourname">{requestData.sheetName}</span>
               </h2>
               <h3 className="minus-marg">has been succesfully uploaded</h3>
-              <a class="reset" href="/">
+              <a className="reset" href="/">
                 Home
               </a>
             </div>
